@@ -1,0 +1,104 @@
+---
+layout: post
+title: "코로나19 병원정보_위치"
+subtitle: "코로나19 예방접종센터 위치정보 검색서비스."
+date: 2020-01-26 23:45:13 -0400
+background: '/img/posts/01.jpg'
+---
+<div id="map" style="width:100%;height:500px;"></div>
+<br>
+<br>
+<input id="sido" name="시도" value="" type="text">
+<button id="search">검색</button>
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+</script>
+
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4d806917ac0b970b0e779dbbfed5f430"></script>
+<script>
+    
+
+    // 지도에 마커를 생성하고 표시한다
+    // bundle exec jekyll serve
+
+</script>
+
+  <script>
+    
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+        mapOption = {
+            center: new kakao.maps.LatLng(33.4551254, 126.562303), // 지도의 중심좌표
+            level: 10, // 지도의 확대 레벨
+            mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+        }; 
+
+    // 지도를 생성한다 
+    var map = new kakao.maps.Map(mapContainer, mapOption); 
+    
+    var zoomControl = new kakao.maps.ZoomControl();
+
+    // 지도의 우측에 확대 축소 컨트롤을 추가한다
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    $(document).ready(function () {
+        $("#search").click(function () {
+
+            const sido = document.getElementById('sido').value;
+
+
+            $.ajax({
+                method: "GET",
+                url: "https://api.odcloud.kr/api/15077586/v1/centers?&serviceKey=4K4EfEjoaMuDe8yW3cjlpWFKgsmRbyoQYcVLKY8yzus7ORY1dfhBnPwc8ztMPuJKWRr1p%2BqgH9wM2nPq8jDO7A%3D%3D",
+                data: { perPage: 260, sido: $("#sido").val() },
+
+            })
+                .done(function (msg) {
+
+                    for (i = 0; i < 260; i++) 
+                    {
+                        if (sido == msg.data[i].sido) 
+                        {
+                                      
+                            // 이동할 위도 경도 위치를 생성합니다 
+                            //var moveLatLon = new kakao.maps.LatLng(, );
+                            
+                        
+                            var marker = new kakao.maps.Marker({
+                            position: new kakao.maps.LatLng(msg.data[i].lat, msg.data[i].lng), // 마커의 좌표
+                            map: map // 마커를 표시할 지도 객체
+                            });
+
+                            var infowindow = new kakao.maps.InfoWindow({
+                                content: msg.data[i].centerName // 인포윈도우에 표시할 내용
+                            });
+                            
+                            (function(marker, infowindow) {
+                            // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+                                kakao.maps.event.addListener(marker, 'mouseover', function() {
+                                infowindow.open(map, marker);
+                               });
+                               kakao.maps.event.addListener(marker, 'mouseout', function() {
+                                    infowindow.close();
+                            });
+                            })(marker, infowindow);
+
+                            
+                            // 이동할 위도 경도 위치를 생성합니다 
+                            var moveLatLon = new kakao.maps.LatLng(msg.data[i].lat, msg.data[i].lng);
+                            // 지도 중심을 이동 시킵니다
+                            map.setCenter(moveLatLon);
+                            
+
+                        }
+                    }
+                        
+                    
+                });
+
+        });
+
+    });
+    
+
+</script>
