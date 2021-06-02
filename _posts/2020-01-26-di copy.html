@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "코로나19 병원정보_위치"
+title: "코로나19 예방접종센터"
 subtitle: "코로나19 예방접종센터 위치정보 검색서비스."
 date: 2020-01-26 23:45:13 -0400
 background: '/img/posts/01.jpg'
 ---
-<div id="map" style="width:100%;height:500px;"></div>
+<div id="map" style="width: 100%;height: 500px;"></div>
 <br>
 <br>
 <input id="sido" name="시도" value="" type="text">
@@ -57,7 +57,7 @@ integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="ano
 
                     for (i = 0; i < 260; i++) 
                     {
-                        if (sido == msg.data[i].sido) 
+                        if (msg.data[i].sido.includes(sido) == 1) 
                         {
                                       
                             // 이동할 위도 경도 위치를 생성합니다 
@@ -69,16 +69,20 @@ integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="ano
                             map: map // 마커를 표시할 지도 객체
                             });
 
-                            var infowindow = new kakao.maps.InfoWindow({
-                                content: msg.data[i].centerName // 인포윈도우에 표시할 내용
-                            });
+                            var iwRemoveable = true;
+								var infowindow = new kakao.maps.InfoWindow({
+									content:'센터: ' + msg.data[i].centerName + 
+									'<br/>' + '주소: ' + msg.data[i].address + 
+									'<br/>' + msg.data[i].phoneNumber,
+									removable : iwRemoveable
+								});
                             
                             (function(marker, infowindow) {
                             // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
-                                kakao.maps.event.addListener(marker, 'mouseover', function() {
+                                kakao.maps.event.addListener(marker, 'click', function() {
                                 infowindow.open(map, marker);
                                });
-                               kakao.maps.event.addListener(marker, 'mouseout', function() {
+                               kakao.maps.event.addListener(marker, '', function() {
                                     infowindow.close();
                             });
                             })(marker, infowindow);
