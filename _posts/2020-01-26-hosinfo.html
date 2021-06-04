@@ -26,7 +26,7 @@ background: '/img/posts/01.jpg'
 	<input id="sido" name="시도" value="" type="text">
     <button id="search">검색</button>
 	<p>찾고자하는 지역을 입력하시고 검색을 클릭하시면 해당하는 지역의 코로나19 예방접종센터의 위치와 전화번호를 제공합니다.</p>
-	
+	<p>ex) 제주, 제주시</p>
 	
 
 	<script src="https://code.jquery.com/jquery-3.4.1.js"
@@ -68,7 +68,7 @@ background: '/img/posts/01.jpg'
 
                         for (i = 0; i < 260; i++) 
 						{
-                            if (msg.data[i].sido.includes(sido) == 1) 
+                            if (msg.data[i].sido.includes(sido) == 1 || msg.data[i].sigungu.includes(sido) == 1) 
 							{
 								          
 								// 이동할 위도 경도 위치를 생성합니다 
