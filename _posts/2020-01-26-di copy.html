@@ -1,108 +1,210 @@
----
-layout: post
-title: "코로나19 예방접종센터"
-subtitle: "코로나19 예방접종센터 위치정보 검색서비스."
-date: 2020-01-26 23:45:13 -0400
-background: '/img/posts/01.jpg'
----
-<div id="map" style="width: 100%;height: 500px;"></div>
-<br>
-<br>
-<input id="sido" name="시도" value="" type="text">
-<button id="search">검색</button>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>다음 지도 API</title>
 
-<script src="https://code.jquery.com/jquery-3.4.1.js"
-integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
-</script>
+	<style>
+	
+    .wrap {position: absolute;left: 0;bottom: 30px;width: 280px;height: 100px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 13px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+    .wrap * {padding: 0;margin: 0;}
+    .wrap .info {width: 280px;height: 100px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 15px;font-weight: bold;}
+    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+    .info .body {position: relative;overflow:hidden;}
+    .info .desc {position: relative;margin: 13px 0 0 10px;height: 85px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .desc .jibun {font-size: 12px;color: #888;margin-top: -2px;};
+	</style>
 
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4d806917ac0b970b0e779dbbfed5f430"></script>
-<script>
-    
+</head>
+<body>
+	<div id="map" style="width:50%;height:350px;"></div>
 
-    // 지도에 마커를 생성하고 표시한다
-    // bundle exec jekyll serve
+	<input id="sido" name="시도" value="" type="text">
+    <button id="search">검색</button>
+	
 
-</script>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"
+	integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+	</script>
 
-  <script>
-    
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-        mapOption = {
-            center: new kakao.maps.LatLng(33.4551254, 126.562303), // 지도의 중심좌표
-            level: 10, // 지도의 확대 레벨
-            mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
-        }; 
+	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4d806917ac0b970b0e779dbbfed5f430"></script>
+	<script>
+		
 
-    // 지도를 생성한다 
-    var map = new kakao.maps.Map(mapContainer, mapOption); 
-    
-    var zoomControl = new kakao.maps.ZoomControl();
+		// 지도에 마커를 생성하고 표시한다
+		
 
-    // 지도의 우측에 확대 축소 컨트롤을 추가한다
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	</script>
 
-    $(document).ready(function () {
-        $("#search").click(function () {
+	  <script>
+		
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(33.4551254, 126.562303), // 지도의 중심좌표
+		        level: 10, // 지도의 확대 레벨
+		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+		    }; 
 
-            const sido = document.getElementById('sido').value;
+		// 지도를 생성한다 
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+		var zoomControl = new kakao.maps.ZoomControl();
+
+		// 지도의 우측에 확대 축소 컨트롤을 추가한다
+		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+        $(document).ready(function () {
+            $("#search").click(function () {
+
+                const sido = document.getElementById('sido').value;
 
 
-            $.ajax({
-                method: "GET",
-                url: "https://api.odcloud.kr/api/15077586/v1/centers?&serviceKey=4K4EfEjoaMuDe8yW3cjlpWFKgsmRbyoQYcVLKY8yzus7ORY1dfhBnPwc8ztMPuJKWRr1p%2BqgH9wM2nPq8jDO7A%3D%3D",
-                data: { perPage: 260, sido: $("#sido").val() },
+                $.ajax({
+                    method: "GET",
+                    url: "https://api.odcloud.kr/api/15077586/v1/centers?&serviceKey=4K4EfEjoaMuDe8yW3cjlpWFKgsmRbyoQYcVLKY8yzus7ORY1dfhBnPwc8ztMPuJKWRr1p%2BqgH9wM2nPq8jDO7A%3D%3D",
+                    data: { perPage: 260, sido: $("#sido").val() },
 
-            })
-                .done(function (msg) {
+                })
+                    .done(function (msg) {
 
-                    for (i = 0; i < 260; i++) 
-                    {
-                        if (msg.data[i].sido.includes(sido) == 1) 
-                        {
-                                      
-                            // 이동할 위도 경도 위치를 생성합니다 
-                            //var moveLatLon = new kakao.maps.LatLng(, );
-                            
-                        
-                            var marker = new kakao.maps.Marker({
-                            position: new kakao.maps.LatLng(msg.data[i].lat, msg.data[i].lng), // 마커의 좌표
-                            map: map // 마커를 표시할 지도 객체
-                            });
+                        for (i = 0; i < 260; i++) 
+						{
+                            if (msg.data[i].sido.includes(sido) == 1) 
+							{
+								          
+								// 이동할 위도 경도 위치를 생성합니다 
+								//var moveLatLon = new kakao.maps.LatLng(, );
+								
 
-                            var iwRemoveable = true;
+								var marker = new kakao.maps.Marker({
+		    					position: new kakao.maps.LatLng(msg.data[i].lat, msg.data[i].lng), // 마커의 좌표
+		    					map: map// 마커를 표시할 지도 객체\
+								});
+								/*
+								var iwRemoveable = true;
 								var infowindow = new kakao.maps.InfoWindow({
-									content:'센터: ' + msg.data[i].centerName + 
-									'<br/>' + '주소: ' + msg.data[i].address + 
+									content:  
+									//'센터: ' + msg.data[i].centerName + 
+									'<br/>' + '주소: ' +  msg.data[i].address + 
 									'<br/>' + msg.data[i].phoneNumber,
 									removable : iwRemoveable
 								});
-                            
-                            (function(marker, infowindow) {
-                            // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
-                                kakao.maps.event.addListener(marker, 'click', function() {
-                                infowindow.open(map, marker);
-                               });
-                               kakao.maps.event.addListener(marker, '', function() {
-                                    infowindow.close();
-                            });
-                            })(marker, infowindow);
+								
+								(function(marker, infowindow) {
+								// 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+									kakao.maps.event.addListener(marker, 'click', function() {
+									infowindow.open(map, marker);
+								});
+								})(marker, infowindow);
+						*/
+/*
+								var content = '<div class="wrap">' + 
+								'    <div class="info">' + 
+								'        <div class="title">' + msg.data[i].sigungu + 
+								'            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+								'        </div>' + 
+								'        <div class="body">' + 
+								'            <div class="img">' +              
+								'           </div>' + 
+								'            <div class="desc">' + 
+								'                <div class="ellipsis">'+ msg.data[i].address +'</div>' + 
+								'                <div class="jibun ellipsis">'+ msg.data[i].phoneNumber +'</div>' +   
+								'</div>';
 
-                            
-                            // 이동할 위도 경도 위치를 생성합니다 
-                            var moveLatLon = new kakao.maps.LatLng(msg.data[i].lat, msg.data[i].lng);
-                            // 지도 중심을 이동 시킵니다
-                            map.setCenter(moveLatLon);
-                            
+								var overlay = new kakao.maps.CustomOverlay({
+									content: content,
+									position: marker.getPosition()       
+								});
+								(function(marker, overlay) {
+								// 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+									kakao.maps.event.addListener(marker, 'click', function() {
+										overlay.setMap(map);
+										 
+								});
+								})(marker, overlay);
 
+								function closeOverlay() {
+									overlay.setMap(null);     
+								}
+*/
+								var CustomOverlay = new kakao.maps.CustomOverlay({
+									//content: content,
+								
+									position: marker.getPosition()
+								});
+								var Customcontent = document.createElement('div');
+								Customcontent.className = "wrap";
+
+								var info = document.createElement('div');
+								info.className = "info"			
+								Customcontent.appendChild(info);
+
+								//커스텀오버레이 타이틀
+								var contentTitle = document.createElement("div");
+								contentTitle.className = "title"
+								contentTitle.appendChild(document.createTextNode(msg.data[i].sigungu));
+								info.appendChild(contentTitle);
+
+								//커스텀오버레이 닫기 버튼
+								var closeBtn = document.createElement("div");
+								closeBtn.className = "close";
+								closeBtn.setAttribute("title","닫기");
+								//closeBtn.onclick = function() { CustomOverlay.setMap(null); };
+								contentTitle.appendChild(closeBtn);
+
+								var bodyContent = document.createElement("div");
+								bodyContent.className = "body";
+								info.appendChild(bodyContent);
+
+								var imgDiv = document.createElement("div");
+								imgDiv.className = "img";
+								bodyContent.appendChild(imgDiv);
+
+								var descContent = document.createElement("div");
+								descContent.className = "desc"
+								bodyContent.appendChild(descContent);
+
+								//커스텀오버레이 주소			
+								var addressContent = document.createElement("div");
+								addressContent.className = "ellipsis";
+								addressContent.appendChild(document.createTextNode(msg.data[i].address));
+								descContent.appendChild(addressContent);
+
+								//커스텀오버레이 지번주소
+								var address2Content = document.createElement("div");
+								address2Content.className = "jibun ellipsis";
+								address2Content.appendChild(document.createTextNode(msg.data[i].phoneNumber));
+								descContent.appendChild(address2Content);
+
+								CustomOverlay.setContent(Customcontent);
+
+								(function(marker, CustomOverlay) {
+									closeBtn.onclick = function() { CustomOverlay.setMap(null); };
+								// 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+									kakao.maps.event.addListener(marker, 'click', function() {
+										CustomOverlay.setMap(map);
+										
+								});
+								})(marker, CustomOverlay);
+
+								CustomOverlay.setMap(null);
+							
+
+                            }
                         }
-                    }
-                        
-                    
-                });
+							
+						
+                    });
+
+            });
 
         });
+		
 
-    });
-    
-
-</script>
+    </script>
+</body>
+</html>
