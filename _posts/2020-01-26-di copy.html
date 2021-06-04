@@ -192,6 +192,11 @@
 								})(marker, CustomOverlay);
 
 								CustomOverlay.setMap(null);
+
+								// 이동할 위도 경도 위치를 생성합니다 
+								var moveLatLon = new kakao.maps.LatLng(msg.data[i].lat, msg.data[i].lng);
+								// 지도 중심을 이동 시킵니다
+								map.setCenter(moveLatLon);
 							
 
                             }
