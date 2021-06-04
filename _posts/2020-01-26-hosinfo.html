@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>다음 지도 API</title>
-
+---
+layout: post
+title: "코로나19 예방접종센터"
+subtitle: "코로나19 예방접종센터 위치정보 검색서비스."
+date: 2020-01-26 23:45:13 -0400
+background: '/img/posts/01.jpg'
+---
 	<style>
 	
     .wrap {position: absolute;left: 0;bottom: 30px;width: 280px;height: 100px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 13px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
@@ -25,6 +26,8 @@
 
 	<input id="sido" name="시도" value="" type="text">
     <button id="search">검색</button>
+	<p>찾고자하는 지역을 입력하시고 검색을 클릭하시면 해당하는 지역의 코로나19 예방접종센터의 위치와 전화번호를 제공합니다.</p>
+
 	
 
 	<script src="https://code.jquery.com/jquery-3.4.1.js"
@@ -32,14 +35,7 @@
 	</script>
 
 	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4d806917ac0b970b0e779dbbfed5f430"></script>
-	<script>
-		
-
-		// 지도에 마커를 생성하고 표시한다
-		
-
-	</script>
-
+	
 	  <script>
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -132,8 +128,6 @@
 								}
 */
 								var CustomOverlay = new kakao.maps.CustomOverlay({
-									//content: content,
-								
 									position: marker.getPosition()
 								});
 								var Customcontent = document.createElement('div');
