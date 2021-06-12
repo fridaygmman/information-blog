@@ -70,7 +70,8 @@ background: '/img/posts/01.jpg'
 						{
                             if (msg.data[i].sido.includes(sido) == 1 || msg.data[i].sigungu.includes(sido) == 1 || msg.data[i].address.includes(sido)) 
 							{
-								          
+								
+								var check = 1
 								// 이동할 위도 경도 위치를 생성합니다 
 								//var moveLatLon = new kakao.maps.LatLng(, );
 								
@@ -193,11 +194,12 @@ background: '/img/posts/01.jpg'
 							
 
                             }
-							else
-							{
-								alert("입력하신 지역에는 예방접종센터가 없습니다.")
-							}
+							
                         }
+						if(check != 1)
+						{
+							alert("해당지역에는 코로나19 예방접종센터가 없습니다.")
+						}
 							
 						
                     });
