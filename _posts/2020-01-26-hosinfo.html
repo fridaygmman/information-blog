@@ -49,6 +49,8 @@ background: '/img/posts/01.jpg'
 		
 		var zoomControl = new kakao.maps.ZoomControl();
 
+		var check
+
 		// 지도의 우측에 확대 축소 컨트롤을 추가한다
 		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
@@ -71,7 +73,7 @@ background: '/img/posts/01.jpg'
                             if (msg.data[i].sido.includes(sido) == 1 || msg.data[i].sigungu.includes(sido) == 1 || msg.data[i].address.includes(sido)) 
 							{
 								
-								var check = 1
+								check = 1
 								// 이동할 위도 경도 위치를 생성합니다 
 								//var moveLatLon = new kakao.maps.LatLng(, );
 								
