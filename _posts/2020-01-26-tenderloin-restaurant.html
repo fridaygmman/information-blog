@@ -1,0 +1,69 @@
+---
+layout: post
+title: "안심식당"
+subtitle: "안심식당 검색서비스."
+date: 2020-01-27 23:45:13 -0400
+background: '/img/posts/01.jpg'
+---
+
+
+<body>
+<h1>안심식당 리스트 검색</h1>
+<h3>*안심식당 : 아래 표시된 3가지 방역수칙을 준수해 선정된 식당.<br>
+    (①덜어먹기 가능한 도구 비치·제공 ②위생적인 수저 관리 ③종사자 마스크 착용 여부)</h3>
+    <br><br>
+    *지역(시도명)을 입력해 안심식당 리스트 보기<br>
+
+<input id="RELAX_SI_NM" value="" type="text">
+<button id="search">검색</button>
+<p></p>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $("#search").click(function () {
+            
+            $.ajax({
+                        method: "GET",
+                        
+                        url: "http://211.237.50.150:7080/openapi/8544c46334605f47b7cd4eeab9fce41b6c921588fc7acb5823f1abb5a9ea3dc2/json/Grid_20200713000000000605_1/1/5",
+                        //datatype: 'json',
+                        
+                        data: { END_INDEX:100, RELAX_SI_NM: "서울특별시", RELAX_SI_NM: "부산광역시", RELAX_SI_NM: "대전광역시", RELAX_SI_NM: "광주광역시", 
+                                RELAX_SI_NM: "경상북도", RELAX_SI_NM: "경상남도", RELAX_SI_NM: "충청북도", RELAX_SI_NM: "충청남도", RELAX_SI_NM: "전라북도", RELAX_SI_NM: "전라남도",
+                                RELAX_SI_NM: "인천광역시", RELAX_SI_NM: "세종특별자치시", RELAX_SI_NM: "제주특별자치도"
+                            },
+                        //data: { RELAX_SI_NM: $("#RELAX_SI_NM").val() }
+    
+                    })
+                        .done(function (msg) {
+
+                                //resultArea.innerHTML = null;
+                            for(i=0; i<100; i++){
+                            console.log(msg);
+                            console.log(msg.Grid_20200713000000000605_1.row[i].RELAX_RSTRNT_NM);
+                            console.log(msg.Grid_20200713000000000605_1.row[i].RELAX_ADD1);
+                            console.log(msg.Grid_20200713000000000605_1.row[i].RELAX_ADD2);
+                            console.log(msg.Grid_20200713000000000605_1.row[i].RELAX_RSTRNT_TEL);
+                            $("p").append("<br><strong>"+msg.Grid_20200713000000000605_1.row[i].RELAX_RSTRNT_NM +"</strong>");
+                            $("p").append("<br><strong>주소 : "+msg.Grid_20200713000000000605_1.row[i].RELAX_ADD1 +"</strong>");
+                            $("p").append(" <strong>"+msg.Grid_20200713000000000605_1.row[i].RELAX_ADD2 +"</strong>");
+                            $("p").append("<br><strong>전화번호 : "+msg.Grid_20200713000000000605_1.row[i].RELAX_RSTRNT_TEL +"</strong><br>");
+                            //inputValueLength = text.value.length; i++; 
+                            }
+                        })
+                        //.done(function (msg) {
+                        //    for(i=0; i<260; i++){
+                        //    console.log(msg.data[i].RELAX_SI_NM);
+                        //    $("p").append("<strong>"+msg.data[i].RELAX_SI_NM +"</strong>")
+                        //    }
+                        //});
+                    });
+                    });
+                    
+</script>
+
+</body>
+</html>
